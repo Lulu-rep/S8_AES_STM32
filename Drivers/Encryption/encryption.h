@@ -8,6 +8,6 @@
 #ifndef ENCRYPTION_ENCRYPTION_H_
 #define ENCRYPTION_ENCRYPTION_H_
 
-//sale pute
+#include <stdint.h>
 
 #endif /* ENCRYPTION_ENCRYPTION_H_ */
