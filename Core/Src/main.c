@@ -96,6 +96,8 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   TestInvShftRows();
+  TestInvSubBytes();
+  TestInvMixColumns();
   /* USER CODE END 2 */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */

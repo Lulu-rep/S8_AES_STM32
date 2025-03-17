@@ -12,7 +12,11 @@
 
 void InvCipher(uint8_t* state,int num_rounds,uint8_t* RoundKey);
 void InvShftRows(uint8_t* state);
+void InvSubBytes(uint8_t* state);
+void InvMixColumns(uint8_t* state);
 void TestInvShftRows();
+void TestInvSubBytes();
+void TestInvMixColumns();
 
 
 //dust2 > mirage
