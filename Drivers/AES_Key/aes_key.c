@@ -24,7 +24,7 @@ void aes_key_expansion(uint8_t* key, uint8_t* word) {
         if (i % 4 == 0) {
             rotword(temp);
             subword(temp);
-            coef_add(temp, rcon[i / 4], temp);
+            coef_add(temp, Rcon(i/4), temp);
         }
         for (int j = 0; j < 4; j++) {
             word[4 * i + j] = word[4 * (i - 10) + j] ^ temp[j];
@@ -61,4 +61,13 @@ uint8_t* Rcon(uint8_t i){
     return R;
 }
 
+void add_round_key(uint8_t* state,uint8_t* word ,uint8_t r){
+    int Nb = 4;
+    for(int i=0; i<4; i++){
+        state[Nb*0+i] = state[Nb*0+i]^word[4*Nb*r+4*i+0];
+        state[Nb*1+i] = state[Nb*1+i]^word[4*Nb*r+4*i+1];
+        state[Nb*2+i] = state[Nb*2+i]^word[4*Nb*r+4*i+2];
+        state[Nb*3+i] = state[Nb*3+i]^word[4*Nb*r+4*i+3];
+    }
+}
 
