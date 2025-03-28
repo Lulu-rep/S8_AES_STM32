@@ -6,8 +6,9 @@
  */
 
 #include "encryption.h"
+#include "main.h"
 
-void aes_cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
+void aes_cipher(uint8_t *in, uint8_t *out, uint8_t *key) {
 
     uint8_t state[4*4];
     for (int i = 0; i < 4; i++) {
@@ -15,17 +16,17 @@ void aes_cipher(uint8_t *in, uint8_t *out, uint8_t *w) {
             state[4*i+j] = in[i+4*j];
         }
     }
-    add_round_key(state, w, 0);
+    add_round_key(state, key, 0);
     for (int round = 1; round < 10; round++) {
         sub_bytes(state);
         shift_rows(state);
         mix_columns(state);
-        add_round_key(state, w, round);
+        add_round_key(state, key, round);
     }
 
     sub_bytes(state);
     shift_rows(state);
-    add_round_key(state, w, 10);
+    add_round_key(state, key, 10);
 
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {

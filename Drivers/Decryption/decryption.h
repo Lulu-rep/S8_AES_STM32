@@ -10,11 +10,11 @@
 
 #include "main.h"
 
-void InvCipher(uint8_t* state,int num_rounds,uint8_t* RoundKey);
-void InvShftRows(uint8_t* state);
+void InvCipher(uint8_t *in, uint8_t *out, uint8_t *key);
+void InvShiftRows(uint8_t* state);
 void InvSubBytes(uint8_t* state);
 void InvMixColumns(uint8_t* state);
-void TestInvShftRows();
+void TestInvShiftRows();
 void TestInvSubBytes();
 void TestInvMixColumns();
 

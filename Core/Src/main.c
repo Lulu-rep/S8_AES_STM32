@@ -95,10 +95,58 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
-  TestInvShftRows();
-  TestInvSubBytes();
-  TestInvMixColumns();
-  /* USER CODE END 2 */
+
+    uint8_t key[] = {
+            0x2b, 0x7e, 0x15, 0x16,
+            0x28, 0xae, 0xd2, 0xa6,
+            0xab, 0xf7, 0x15, 0x88,
+            0x09, 0xcf, 0x4f, 0x3c};
+
+    uint8_t in[] = {
+            0x32, 0x43, 0xf6, 0xa8,
+            0x88, 0x5a, 0x30, 0x8d,
+            0x31, 0x31, 0x98, 0xa2,
+            0xe0, 0x37, 0x07, 0x34};
+
+    uint8_t out[16]; // 128
+
+    uint8_t *w; // expanded key
+
+    w = malloc(4*(10+1)*4);
+    aes_key_expansion(key, expanded);
+
+    printf("Expanded Key:\n");
+    for (int i = 0; i < 4 * (10 + 1); i++) {
+        printf("%02x %02x %02x %02x\n", w[4 * i + 0], w[4 * i + 1], w[4 * i + 2], w[4 * i + 3]);
+    }
+    
+    printf("Plaintext message:\n");
+    for (int i = 0; i < 4; i++) {
+        printf("%02x %02x %02x %02x \n", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
+    }
+
+    printf("\n");
+
+    aes_cipher(in, out, expanded);
+
+    printf("Ciphered message:\n");
+    for (int i = 0; i < 4; i++) {
+        printf("%02x %02x %02x %02x \n", out[4*i+0], out[4*i+1], out[4*i+2], out[4*i+3]);
+    }
+
+    printf("\n");
+
+    uint8_t decrypted[16];
+
+    InvCipher(out, decrypted, expanded);
+
+    printf("Decrypted message:\n");
+    for (int i = 0; i < 4; i++) {
+        printf("%02x %02x %02x %02x \n", decrypted[4*i+0], decrypted[4*i+1], decrypted[4*i+2], decrypted[4*i+3]);
+    }
+
+    /* USER CODE END 2 */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)

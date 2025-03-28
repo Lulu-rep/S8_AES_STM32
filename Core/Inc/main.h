@@ -31,11 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdint.h>
-#include <assert.h>
-#include <stdio.h>
-#include "SBox.h"
-#include "coef_function.h"
+#include "encryption.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

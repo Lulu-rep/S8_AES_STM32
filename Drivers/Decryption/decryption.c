@@ -9,11 +9,32 @@
 #include "main.h"
 #define Nb 4
 
-void InvCipher(uint8_t* state,int num_rounds,uint8_t* RoundKey){
+void InvCipher(uint8_t *in, uint8_t *out, uint8_t *key) {
+    uint8_t state[4*4];
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            state[4*i+j] = in[i+4*j];
+        }
+    }
+    add_round_key(state, key, 10);
+    for (int round = 9; round > 0; round--) {
+        InvShiftRows(state);
+        InvSubBytes(state);
+        add_round_key(state, key, round);
+        InvMixColumns(state);
+    }
+    InvShiftRows(state);
+    InvSubBytes(state);
+    add_round_key(state, key, 0);
 
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            out[i+4*j] = state[4*i+j];
+        }
+    }
 }
 
-void InvShftRows(uint8_t* state){
+void InvShiftRows(uint8_t* state){
 	uint8_t i, k, s, tmp;
 
 	for (i = 1; i < 4; i++) {
@@ -56,13 +77,13 @@ void InvMixColumns(uint8_t* state){
 	}
 }
 
-void TestInvShftRows(){
+void TestInvShiftRows(){
 	uint8_t state[4*4] = {0xd4, 0xe0, 0xb8, 0x1e,
 						  0xbf, 0xb4, 0x41, 0x27,
 						  0x5d, 0x52, 0x11, 0x98,
 						  0x30, 0xae, 0xf1, 0xe5};
 
-	InvShftRows(state);
+	InvShiftRows(state);
     for(int i = 0; i < 4; i++){
 		for(int j = 0; j < 4; j++){
 			printf("%02X ", state[j + 4*i]);
