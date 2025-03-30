@@ -115,11 +115,6 @@ int main(void)
 
     key_expanded = malloc(4*(10+1)*4);
     aes_key_expansion(key, key_expanded);
-
-    printf("Expanded Key:\n");
-    for (int i = 0; i < 4 * (10 + 1); i++) {
-        printf("%02x %02x %02x %02x\n", key_expanded[4 * i + 0], key_expanded[4 * i + 1], key_expanded[4 * i + 2], key_expanded[4 * i + 3]);
-    }
     
     printf("Plaintext message:\n");
     for (int i = 0; i < 4; i++) {
