@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
+#include <stdlib.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -108,42 +109,52 @@ int main(void)
             0x31, 0x31, 0x98, 0xa2,
             0xe0, 0x37, 0x07, 0x34};
 
-    uint8_t out[16]; // 128
+    uint8_t out[16];
 
-    uint8_t *w; // expanded key
+    uint8_t *key_expanded;
 
-    w = malloc(4*(10+1)*4);
-    aes_key_expansion(key, expanded);
+    key_expanded = malloc(4*(10+1)*4);
+    aes_key_expansion(key, key_expanded);
 
     printf("Expanded Key:\n");
     for (int i = 0; i < 4 * (10 + 1); i++) {
-        printf("%02x %02x %02x %02x\n", w[4 * i + 0], w[4 * i + 1], w[4 * i + 2], w[4 * i + 3]);
+        printf("%02x %02x %02x %02x\n", key_expanded[4 * i + 0], key_expanded[4 * i + 1], key_expanded[4 * i + 2], key_expanded[4 * i + 3]);
     }
     
     printf("Plaintext message:\n");
     for (int i = 0; i < 4; i++) {
-        printf("%02x %02x %02x %02x \n", in[4*i+0], in[4*i+1], in[4*i+2], in[4*i+3]);
+        for (int j = 0; j < 4; j++) {
+            printf("%02x ", in[j * 4 + i]);
+        }
+        printf("\n");
     }
 
     printf("\n");
 
-    aes_cipher(in, out, expanded);
+    aes_cipher(in, out, key_expanded);
 
     printf("Ciphered message:\n");
     for (int i = 0; i < 4; i++) {
-        printf("%02x %02x %02x %02x \n", out[4*i+0], out[4*i+1], out[4*i+2], out[4*i+3]);
+        for (int j = 0; j < 4; j++) {
+            printf("%02x ", out[j * 4 + i]);
+        }
+        printf("\n");
     }
 
     printf("\n");
 
-    uint8_t decrypted[16];
+    uint8_t deciphered[16];
 
-    InvCipher(out, decrypted, expanded);
+    InvCipher(out, deciphered, key_expanded);
 
-    printf("Decrypted message:\n");
+    printf("Deciphered message:\n");
     for (int i = 0; i < 4; i++) {
-        printf("%02x %02x %02x %02x \n", decrypted[4*i+0], decrypted[4*i+1], decrypted[4*i+2], decrypted[4*i+3]);
+        for (int j = 0; j < 4; j++) {
+            printf("%02x ", deciphered[j * 4 + i]);
+        }
+        printf("\n");
     }
+    free(key_expanded);
 
     /* USER CODE END 2 */
 

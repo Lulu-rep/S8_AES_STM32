@@ -58,7 +58,7 @@ void shift_rows(uint8_t* state){
     }
 }
 
-void mix_columns(uint8_t *state) {
+void mix_columns(uint8_t* state) {
     uint8_t a[] = {0x02, 0x01, 0x01, 0x03};
     uint8_t col[4], res[4];
     for (int j = 0; j < 4; j++) {
