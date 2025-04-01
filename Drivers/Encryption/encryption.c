@@ -59,15 +59,18 @@ void shift_rows(uint8_t* state){
 }
 
 void mix_columns(uint8_t* state) {
-    uint8_t a[] = {0x02, 0x01, 0x01, 0x03};
-    uint8_t col[4], res[4];
-    for (int j = 0; j < 4; j++) {
-        for (int i = 0; i < 4; i++) {
-            col[i] = state[4*i+j];
-        }
-        coef_mult(a, col, res);
-        for (int i = 0; i < 4; i++) {
-            state[4*i+j] = res[i];
-        }
+    
+    uint8_t i;
+    uint8_t a, b, c, d;
+    for(i = 0; i < 4; i++){
+        a = state[i];
+        b = state[4+i];
+        c = state[2*4+i];
+        d = state[3*4+i];
+
+        state[i] = gf_mult(0x02, a) ^ gf_mult(0x03, b) ^ gf_mult(0x01, c) ^ gf_mult(0x01, d);
+        state[4+i] = gf_mult(0x01, a) ^ gf_mult(0x02, b) ^ gf_mult(0x03, c) ^ gf_mult(0x01, d);
+        state[2*4+i] = gf_mult(0x01, a) ^ gf_mult(0x01, b) ^ gf_mult(0x02, c) ^ gf_mult(0x03, d);
+        state[3*4+i] = gf_mult(0x03, a) ^ gf_mult(0x01, b) ^ gf_mult(0x01, c) ^ gf_mult(0x02, d);
     }
 }
